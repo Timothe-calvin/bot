@@ -1,4 +1,4 @@
-require('dotenv').config();
+require(`dotenv`).config();
 
 const { Client, IntentsBitField } = require('discord.js');
 
@@ -18,6 +18,11 @@ client.on('messageCreate', (message) =>{
 console.log(message.content);
 })
 
+client.on('interactionCreate', (interaction) => {
+  if (!InteractionCallback.isChatInputCommand()) return;
+
+  console.log(interaction);
+})
 
 client.login(
   
