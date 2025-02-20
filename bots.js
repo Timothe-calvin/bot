@@ -7,7 +7,7 @@ const client = new Discord.Client({
 // remember to change bot token after uploading
 // token can be grabbed from bot creation under bot tag (use reset token to get code have to refresh it each time.)
 const token =
-  "MTM0MTc5MTA2MzMzMzE0Njc2NQ.GTUHX0.Hu2OHrTYbfnr3DRHH-jJ_ZUpT_cFRquixCEmuI";
+  "";
 
 client.on("ready", async () => {
   console.log(`client has been initiated! ${client.user.username}`);
