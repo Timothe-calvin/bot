@@ -11,3 +11,10 @@ const token = ("")
 client.on('ready',async()=>{
 console.log(`client has been initiated! ${client.user.username}`);
 });
+
+client.on('messageCreate', async(message)=>{
+    if (message.content.toLowerCase() === "test") {
+    message.reply("test successful").catch(err => console.error(err))
+    }
+    });
+    
