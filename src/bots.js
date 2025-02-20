@@ -5,11 +5,18 @@ myIntents.add(IntentsBitField.Flags.GuildPresences, IntentsBitField.Flags.GuildM
 
 const client = new Client({ intents: myIntents });
 
-// other examples:
 const otherIntents = new IntentsBitField([IntentsBitField.Flags.Guilds, IntentsBitField.Flags.DirectMessages]);
 otherIntents.remove([IntentsBitField.Flags.DirectMessages]);
 
+client.on('ready', (c) => {
+  console.log(` ${c.user.tag} is online.`);
+});
+
+client.on('messageCreate', (message) =>{
+console.log(message);
+})
+
 
 client.login(
-  "MTM0MTc5MTA2MzMzMzE0Njc2NQ.Gjk0ma.QHboRTNEWTLBF-ZgzSq8bB-r743aiGpYlFUGEs"
+  ""
 )
