@@ -1,0 +1,15 @@
+{
+  "name": "bots",
+  "version": "1.0.0",
+  "description": "Discord bot",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "bots.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "discord.js": "^13.17.1"
+  }
+}
