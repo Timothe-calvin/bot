@@ -3,6 +3,8 @@ const Discord = require("discord.js");
 const client = new Discord.Client({
   intents: ["GUILDS", "GUILDS_MESSAGES", "GUILD_MEMBERS", "MESSAGE_CONTENT"],
   partials: ["CHANNEL", "MESSAGE"],
+
+
 });
 // remember to change bot token after uploading
 // token can be grabbed from bot creation under bot tag (use reset token to get code have to refresh it each time.)
