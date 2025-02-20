@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const { Client, IntentsBitField } = require('discord.js');
 
 const myIntents = new IntentsBitField();
@@ -13,10 +15,10 @@ client.on('ready', (c) => {
 });
 
 client.on('messageCreate', (message) =>{
-console.log(message);
+console.log(message.content);
 })
 
 
 client.login(
-  ""
+  
 )
