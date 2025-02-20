@@ -1,1 +1,3 @@
 Discord bot
+
+by timothe
