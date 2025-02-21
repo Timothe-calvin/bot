@@ -58,3 +58,5 @@ async () => {
     console.log(`there was an error: ${error}`);
   }
 };
+
+client.login('MTM0MTc5MTA2MzMzMzE0Njc2NQ.GWnPCY.66DuNhS11kHfk8VigPWW7tgLCbo0k7yssOr7rM');

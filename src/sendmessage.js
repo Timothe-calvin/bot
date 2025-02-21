@@ -31,7 +31,7 @@ const roles = [
     },
 ]
 
-client.on("ready", async (c) => {
+client.on("ready",async (c) => {
  try{
 const channel = await client.channel.cache.get('')
 if(!channel) return;
