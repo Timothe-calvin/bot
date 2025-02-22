@@ -1,6 +1,5 @@
-
-const { REST, Routes } = require('discord.js');
-require('dotenv').config();
+const { REST, Routes, ApplicationCommandOptionType } = require("discord.js");
+require("dotenv").config();
 
 const Commands = [
   {
@@ -11,7 +10,29 @@ const Commands = [
     name: "ping",
     description: "Pong",
   },
+   {
+    name: "add",
+    description: "add 2 numbers",
+    options:[
+      {
+        name:'first-number',
+        description:'The first number',
+        type:ApplicationCommandOptionType.Number,
+        required: true,
+      },
+      {
+        name:'second-number',
+        description:'The second number',
+        type:ApplicationCommandOptionType.Number,
+        required: true,
+      }
+    
+    ],
+   }
 ];
+
+ 
+
 
 const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
 
@@ -20,11 +41,10 @@ const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
     console.log("registering slash commands...");
     await rest.put(
       Routes.applicationGuildCommands(
-         process.env.CLIENT_ID,
-        process.env.GUILD_ID,
-       
+        process.env.CLIENT_ID,
+        process.env.GUILD_ID
       ),
-      { body: Commands },
+      { body: Commands }
     );
     console.log(`Slash commands were registered successfully!`);
   } catch (error) {
