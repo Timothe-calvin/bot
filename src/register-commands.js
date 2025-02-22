@@ -28,7 +28,12 @@ const Commands = [
       }
     
     ],
-   }
+   },
+   {
+    name:'embed',
+    description:'sends an embed',
+    
+   },
 ];
 
  
