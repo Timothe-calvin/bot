@@ -18,7 +18,7 @@ client.on("messageCreate", (message) => {
     return;
   }
   console.log(message.content);
-  if ((message.content === "hello", "Hello", "hi", "Hi", "Hola", "hola")) {
+  if ((message.content === "hello")) {
     message.reply("HEY!");
   }
 });
