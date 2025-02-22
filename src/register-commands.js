@@ -1,5 +1,6 @@
-const { REST, Routes, ApplicationCommandOptionType } = require("discord.js");
+const { REST, Routes, ApplicationCommandOptionType, PermissionFlagsBits, } = require("discord.js");
 require("dotenv").config();
+
 
 const Commands = [
   {
@@ -34,6 +35,26 @@ const Commands = [
     description:'sends an embed',
     
    },
+   {
+    name:'ban',
+    description: 'Bans a user',
+    options: [
+        {
+            name: 'user',
+            description: 'Username of the user you want to ban.',
+            type:ApplicationCommandOptionType.Mentionable,
+            require: true,
+        },
+        {
+            name: 'reason',
+            description: 'Reason why you want to ban user.',
+            type:ApplicationCommandOptionType.String,
+        },
+    ],
+    permissionRequired: [PermissionFlagsBits.BanMembers],
+    botPermissions: [PermissionFlagsBits.BanMembers],
+   },
+  
 ];
 const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
 
@@ -52,3 +73,4 @@ const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
     console.log(`there was an error: ${error}`);
   }
 })();
+
