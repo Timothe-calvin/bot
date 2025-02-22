@@ -1,5 +1,5 @@
-require('dotenv').config();
-const { Client, IntentsBitField } = require('discord.js');
+require("dotenv").config();
+const { Client, IntentsBitField } = require("discord.js");
 
 const client = new Client({
   intents: [
@@ -18,20 +18,20 @@ client.on("messageCreate", (message) => {
     return;
   }
   console.log(message.content);
-  if ((message.content === "hello", "Hello", "hi","Hi","Hola", "hola")) {
+  if ((message.content === "hello", "Hello", "hi", "Hi", "Hola", "hola")) {
     message.reply("HEY!");
   }
 });
-client.on('interactionCreate', (interaction)=>{
-	if (!interaction.isChatInputCommand()) return;
 
-	if (interaction.commandName === 'hey') {
-		interaction.reply('HEY')
-	};
-	if (interaction.commandName === 'ping') {
-		interaction.reply('pong!')
-	};
+client.on("interactionCreate", (interaction) => {
+  if (!interaction.isChatInputCommand()) return;
+
+  if (interaction.commandName === "hey") {
+    interaction.reply("HEY");
+  }
+  if (interaction.commandName === "ping") {
+    interaction.reply("pong!");
+  }
 });
 
 client.login(process.env.TOKEN);
-
