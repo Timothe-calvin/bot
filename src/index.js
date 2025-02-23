@@ -1,5 +1,10 @@
 require("dotenv").config();
-const { Client, IntentsBitField, EmbedBuilder, SlashCommandBuilder, } = require("discord.js");
+const {
+  Client,
+  IntentsBitField,
+  EmbedBuilder,
+  SlashCommandBuilder,
+} = require("discord.js");
 
 const fetch = globalThis.fetch; // Ensure fetch is available
 
@@ -31,16 +36,16 @@ client.on("interactionCreate", (interaction) => {
     const embed = new EmbedBuilder()
       .setTitle("Test-Bot")
       .setDescription("A bot used by me to make commands")
-      .setColor("Random")
+      .setColor("Random") 
+      .setImage("https://static.wixstatic.com/media/b34289_0b00d544f6504279b491b36616f2efe5~mv2_d_2040_1360_s_2.jpg/v1/fill/w_1000,h_667,al_c,q_85,usm_0.66_1.00_0.01/b34289_0b00d544f6504279b491b36616f2efe5~mv2_d_2040_1360_s_2.jpg")
       .addFields(
         { name: "Background", value: "The world is a sphere!!", inline: true },
-        { name: "Character", value: "It is also flat!!", inline: true }
+        { name: "Character", value: "It is also flat!!", inline: true },
+     
       );
-
     interaction.reply({ embeds: [embed] });
   }
 });
-
 
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
@@ -90,5 +95,36 @@ client.on("messageCreate", async (message) => {
   }
 });
 
+client.on("interactionCreate", async (interaction) => {
+  if (!interaction.isChatInputCommand()) return;
+
+ const fetch = globalThis.fetch;
+
+  if (interaction.commandName === "bible") {
+    const verse = interaction.options.getString("verse");
+   
+    try {
+      // Fetch verse from Bible API
+      const response = await fetch(`https://bible-api.com/${encodeURIComponent(verse)}`);
+      const data = await response.json();
+
+      if (data.text) {
+        const embed = new EmbedBuilder()
+          .setTitle(`📖 ${verse}`)
+          .setDescription(data.text)
+          .setColor("Random")
+          .setImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0Pp0QC7yS6fTgSzivXVfdWMxdD6jNGXMX9A&s")
+          .setFooter({ text: "Holy Bible" });
+
+        await interaction.reply({ embeds: [embed] });
+      } else {
+        await interaction.reply("❌ Verse not found. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error fetching Bible verse:", error);
+      await interaction.reply("⚠️ An error occurred while fetching the verse.");
+    }
+  }
+});
 
 client.login(process.env.TOKEN);

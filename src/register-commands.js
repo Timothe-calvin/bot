@@ -37,9 +37,11 @@ const Commands = [
   {
     name: "embed",
     description: "sends an embed",
-    type:ApplicationCommandOptionType.String
+    type:ApplicationCommandOptionType.String, 
+    timestamp: new Date().toISOString(),
   },
-];
+]; 
+
 const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
 
 (async () => {
