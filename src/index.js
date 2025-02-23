@@ -127,4 +127,19 @@ client.on("interactionCreate", async (interaction) => {
   }
 });
 
+
+
+const { play, stop, skip, pause, resume, showQueue } = require("./music");
+
+client.on("interactionCreate", async (interaction) => {
+    if (!interaction.isChatInputCommand()) return;
+
+    if (interaction.commandName === "play") await play(interaction);
+    if (interaction.commandName === "stop") await stop(interaction);
+    if (interaction.commandName === "skip") await skip(interaction);
+    if (interaction.commandName === "pause") await pause(interaction);
+    if (interaction.commandName === "resume") await resume(interaction);
+    if (interaction.commandName === "queue") await showQueue(interaction);
+});
+
 client.login(process.env.TOKEN);

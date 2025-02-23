@@ -10,13 +10,16 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@discordjs/voice": "^0.18.0",
     "discord": "^0.8.2",
+    "discord-ytdl-core": "^5.0.4",
     "discord.js": "^14.18.0",
     "dotenv": "^16.4.7",
     "env": "^0.0.2",
     "node-fetch": "^3.3.2",
     "openai": "^4.85.4",
-    "undici": "^7.3.0"
+    "undici": "^7.3.0",
+    "ytdl-core": "^4.11.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.20.0",
