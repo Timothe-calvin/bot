@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { Client, IntentsBitField, EmbedBuilder } = require("discord.js");
+const { Client, IntentsBitField, EmbedBuilder, SlashCommandBuilder, } = require("discord.js");
 
 const fetch = globalThis.fetch; // Ensure fetch is available
 
@@ -40,6 +40,7 @@ client.on("interactionCreate", (interaction) => {
     interaction.reply({ embeds: [embed] });
   }
 });
+
 
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
@@ -88,5 +89,6 @@ client.on("messageCreate", async (message) => {
     await message.reply("⚠️ An error occurred while processing your request.");
   }
 });
+
 
 client.login(process.env.TOKEN);

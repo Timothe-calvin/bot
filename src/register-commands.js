@@ -1,6 +1,11 @@
-const { REST, Routes, ApplicationCommandOptionType, PermissionFlagsBits, } = require("discord.js");
+const {
+  REST,
+  Routes,
+  ApplicationCommandOptionType,
+  PermissionFlagsBits,
+  SlashCommandBuilder
+} = require("discord.js");
 require("dotenv").config();
-
 
 const Commands = [
   {
@@ -11,50 +16,29 @@ const Commands = [
     name: "ping",
     description: "Pong",
   },
-   {
+  {
     name: "add",
     description: "add 2 numbers",
-    options:[
+    options: [
       {
-        name:'first-number',
-        description:'The first number',
-        type:ApplicationCommandOptionType.Number,
+        name: "first-number",
+        description: "The first number",
+        type: ApplicationCommandOptionType.Number,
         required: true,
       },
       {
-        name:'second-number',
-        description:'The second number',
-        type:ApplicationCommandOptionType.Number,
+        name: "second-number",
+        description: "The second number",
+        type: ApplicationCommandOptionType.Number,
         required: true,
-      }
-    
+      },
     ],
-   },
-   {
-    name:'embed',
-    description:'sends an embed',
-    
-   },
-   {
-    name:'ban',
-    description: 'Bans a user',
-    options: [
-        {
-            name: 'user',
-            description: 'Username of the user you want to ban.',
-            type:ApplicationCommandOptionType.Mentionable,
-            require: true,
-        },
-        {
-            name: 'reason',
-            description: 'Reason why you want to ban user.',
-            type:ApplicationCommandOptionType.String,
-        },
-    ],
-    permissionRequired: [PermissionFlagsBits.BanMembers],
-    botPermissions: [PermissionFlagsBits.BanMembers],
-   },
-  
+  },
+  {
+    name: "embed",
+    description: "sends an embed",
+    type:ApplicationCommandOptionType.String
+  },
 ];
 const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
 
@@ -66,11 +50,10 @@ const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
         process.env.CLIENT_ID,
         process.env.GUILD_ID
       ),
-      { body: Commands }
+      { body: Commands , commands}
     );
     console.log(`Slash commands were registered successfully!`);
   } catch (error) {
     console.log(`there was an error: ${error}`);
   }
 })();
-
