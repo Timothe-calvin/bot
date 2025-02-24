@@ -138,7 +138,7 @@ client.on("messageCreate", async (message) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.0-flash-lite-preview-02-05:free", // Your model here
+        model: "sophosympatheia/rogue-rose-103b-v0.2:free", // Your model here
         messages: [{ role: "user", content: message.content }],
       }),
     });
