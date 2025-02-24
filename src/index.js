@@ -129,7 +129,8 @@ client.on("interactionCreate", async (interaction) => {
 // AI chat handler (for non-command messages)
 client.on("messageCreate", async (message) => {
   if (message.author.bot) return; // Ignore bot messages
-
+// https://openrouter.ai/sophosympatheia/rogue-rose-103b-v0.2:free site used for AI
+// https://panel.cybrancee.com/ site used for bot hosting 24/7 5$/month
   try {
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
