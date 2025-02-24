@@ -2,6 +2,7 @@ require("dotenv").config();
 const { Client, GatewayIntentBits, REST, Routes, SlashCommandBuilder } = require("discord.js");
 const { createAudioPlayer, createAudioResource, joinVoiceChannel, getVoiceConnection, AudioPlayerStatus } = require("@discordjs/voice");
 const fetch = require("node-fetch");
+const playdl = require("play-dl");
 
 const client = new Client({
   intents: [
@@ -19,6 +20,7 @@ const GUILD_ID = process.env.GUILD_ID;
 
 const player = createAudioPlayer();
 let queue = [];
+
 
 client.once("ready", () => {
   console.log(`✅ Logged in as ${client.user.tag}`);
@@ -54,55 +56,94 @@ const rest = new REST({ version: "10" }).setToken(TOKEN);
   }
 })();
 
-// Helper function to join voice channel
-function joinChannel(interaction) {
-  return joinVoiceChannel({
-    channelId: interaction.member.voice.channelId,
-    guildId: interaction.guild.id,
-    adapterCreator: interaction.guild.voiceAdapterCreator,
-  });
-}
-
-// Function to play music
-function playNextSong(interaction) {
-  if (queue.length === 0) {
-    interaction.followUp("🎵 Queue is empty. Leaving voice channel.");
-    getVoiceConnection(interaction.guild.id)?.destroy();
-    return;
+// Function to play the next song in the queue
+async function playNextSong(guildId) {
+  const queue = queues.get(guildId);
+  if (!queue || queue.songs.length === 0) {
+      queue?.connection.destroy();
+      queues.delete(guildId);
+      return;
   }
 
-  const nextSong = queue.shift();
-  const resource = createAudioResource(nextSong);
-  player.play(resource);
+  const song = queue.songs.shift();
+  
+  try {
+// Use your extracted cookies
+playdl.setToken({
+    youtube: {
+        cookie: "VISITOR_INFO1_LIVE=your_cookie_here; YSC=your_cookie_here",
+    }
+});
+
+      queue.player.play(resource); // Play the stream
+
+      queue.player.on(AudioPlayerStatus.Idle, () => {
+          playNextSong(guildId); // Play next song when finished
+      });
+
+      queue.player.on("error", (error) => {
+          console.error("Error playing audio:", error);
+          playNextSong(guildId);
+      });
+  } catch (error) {
+      console.error("Error fetching or playing the song:", error);
+      queue.textChannel.send("⚠️ Error playing the song. Skipping...");
+      playNextSong(guildId);
+  }
 }
 
-// Music Command Handling
+// Register slash commands
+const command = [
+  new SlashCommandBuilder()
+    .setName("play")
+    .setDescription("Play music from a YouTube URL (optional)")
+    .addStringOption(option =>
+      option.setName("url").setDescription("YouTube URL (optional)").setRequired(false)
+    ),
+  new SlashCommandBuilder().setName("pause").setDescription("Pause the music"),
+  new SlashCommandBuilder().setName("skip").setDescription("Skip the current song"),
+  new SlashCommandBuilder().setName("stop").setDescription("Stop the music and leave the channel"),
+];
+
+
+const { clientId, guildId,} = process.env;
+
+// Interaction handler for commands
 client.on("interactionCreate", async interaction => {
   if (!interaction.isChatInputCommand()) return;
 
   try {
-    await interaction.deferReply(); // ✅ Deferring response for smooth handling
+    await interaction.deferReply(); // Defer response to avoid timeout
 
     switch (interaction.commandName) {
       case "play":
         if (!interaction.member.voice.channel) {
-          return interaction.editReply("❌ You must be in a voice channel to use this command.");
+          return interaction.editReply("❌ You must be in a voice channel.");
         }
 
         const url = interaction.options.getString("url");
+
+        if (!url) {
+          return interaction.editReply("❌ Please provide a YouTube link.");
+        }
+
         queue.push(url);
 
         let connection = getVoiceConnection(interaction.guild.id);
         if (!connection) {
-          connection = joinChannel(interaction);
+          connection = joinVoiceChannel({
+            channelId: interaction.member.voice.channelId,
+            guildId: interaction.guild.id,
+            adapterCreator: interaction.guild.voiceAdapterCreator,
+          });
           connection.subscribe(player);
         }
 
         if (player.state.status !== AudioPlayerStatus.Playing) {
           playNextSong(interaction);
+        } else {
+          await interaction.editReply(`🎵 Added to queue: ${url}`);
         }
-
-        await interaction.editReply(`🎵 Added to queue: ${url}`);
         break;
 
       case "pause":
@@ -120,13 +161,10 @@ client.on("interactionCreate", async interaction => {
         getVoiceConnection(interaction.guild.id)?.destroy();
         await interaction.editReply("⏹️ Music stopped and bot left the channel.");
         break;
-
-      default:
-        await interaction.editReply("❌ Unknown command.");
     }
   } catch (error) {
-    console.error("❌ Error processing command:", error);
-    await interaction.editReply("⚠️ An error occurred while processing your request.");
+    console.error("Error processing command:", error);
+    await interaction.editReply("⚠️ An error occurred.");
   }
 });
 
