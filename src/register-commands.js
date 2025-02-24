@@ -1,46 +1,36 @@
-const {
-  REST,
-  Routes,
-  ApplicationCommandOptionType,
-  SlashCommandBuilder
-} = require("discord.js");
+const { REST, Routes, SlashCommandBuilder } = require("discord.js");
 require("dotenv").config();
 
-const Commands = [
-  {
-    name: "add",
-    description: "add 2 numbers",
-    options: [
-      {
-        name: "first-number",
-        description: "The first number",
-        type: ApplicationCommandOptionType.Number,
-        required: true,
-      },
-      {
-        name: "second-number",
-        description: "The second number",
-        type: ApplicationCommandOptionType.Number,
-        required: true,
-      },
-    ],
-  },
-];
+const commands = [
+  new SlashCommandBuilder()
+    .setName("add")
+    .setDescription("Adds two numbers")
+    .addNumberOption((option) =>
+      option.setName("first-number")
+        .setDescription("The first number")
+        .setRequired(true)
+    )
+    .addNumberOption((option) =>
+      option.setName("second-number")
+        .setDescription("The second number")
+        .setRequired(true)
+    )
+].map(command => command.toJSON()); // Convert to JSON for Discord API
 
 const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
 
 (async () => {
   try {
-    console.log("registering slash commands...");
+    console.log("Registering slash commands...");
     await rest.put(
       Routes.applicationGuildCommands(
         process.env.CLIENT_ID,
         process.env.GUILD_ID
       ),
-      { body: Commands }
+      { body: commands }
     );
-    console.log("Slash commands were registered successfully!");
+    console.log("✅ Slash commands were registered successfully!");
   } catch (error) {
-    console.log(`There was an error: ${error}`);
+    console.error(`❌ Error registering commands: ${error}`);
   }
 })();
