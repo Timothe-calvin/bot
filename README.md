@@ -1,6 +1,8 @@
 Discord bot
 
-by timothe
+by Timothe Calvin
+
+Making a discord bot to learn how javascript works with the functionality of people
 
 1: made index.js
 2:made register-commands.js
@@ -11,3 +13,4 @@ by timothe
 7:cleaned code and added more async commands to ensure await commands worked in pulling quotes for bible commands
 8:added music.js (haven't added it into code yet breaks index code when added)
 9:updated .gitignore
+10: Added Ai into the bot to have a functional chat
