@@ -2,20 +2,11 @@ const {
   REST,
   Routes,
   ApplicationCommandOptionType,
-  PermissionFlagsBits,
   SlashCommandBuilder
 } = require("discord.js");
 require("dotenv").config();
 
 const Commands = [
-  {
-    name: "hey",
-    description: "replies with hey",
-  },
-  {
-    name: "ping",
-    description: "Pong",
-  },
   {
     name: "add",
     description: "add 2 numbers",
@@ -34,13 +25,7 @@ const Commands = [
       },
     ],
   },
-  {
-    name: "embed",
-    description: "sends an embed",
-    type:ApplicationCommandOptionType.String, 
-    timestamp: new Date().toISOString(),
-  },
-]; 
+];
 
 const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
 
@@ -52,10 +37,10 @@ const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
         process.env.CLIENT_ID,
         process.env.GUILD_ID
       ),
-      { body: Commands , commands}
+      { body: Commands }
     );
-    console.log(`Slash commands were registered successfully!`);
+    console.log("Slash commands were registered successfully!");
   } catch (error) {
-    console.log(`there was an error: ${error}`);
+    console.log(`There was an error: ${error}`);
   }
 })();

@@ -16,6 +16,7 @@
     "discord.js": "^14.18.0",
     "dotenv": "^16.4.7",
     "env": "^0.0.2",
+    "ffmpeg-static": "^5.2.0",
     "node-fetch": "^3.3.2",
     "openai": "^4.85.4",
     "undici": "^7.3.0",
